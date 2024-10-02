@@ -17,4 +17,5 @@ runs:
       export PATH="$PATH:$DOJO_DIR/bin"
       $DOJO_DIR/bin/dojoup --version ${{ inputs.version }}
       echo "$DOJO_DIR/bin" >> $GITHUB_PATH
-
+      echo "------"
+      $DOJO_DIR/sozo --version
