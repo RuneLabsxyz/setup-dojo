@@ -12,5 +12,7 @@ runs:
     run: |-
       curl -L https://install.dojoengine.org | bash
       echo "-----"
-      export PATH="$PATH:$HOME/.dojo/bin"
-      $HOME/.dojo/bin/dojoup --version ${{ inputs.version }}
+      BASE_DIR=${XDG_CONFIG_HOME:-$HOME}
+      DOJO_DIR=${DOJO_DIR-"$BASE_DIR/.dojo"}
+      export PATH="$PATH:$DOJO_DIR/bin"
+      $DOJO_DIR/bin/dojoup --version ${{ inputs.version }}
