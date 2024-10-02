@@ -1,0 +1,15 @@
+name: 'Setup Dojo'
+description: 'Sets up the dojo-engine toolset to the action'
+inputs:
+  version:
+    description: 'The version of the dojo engine to pull'
+
+runs:
+  using: "composite"
+  steps:
+  - name: 'Install dojoup'
+    shell: bash
+    run: curl -L https://install.dojoengine.org | bash
+  - name: 'Install the wanted version of the tool'
+    shell: bash
+    run: dojoup --version ${{ inputs.version }}
