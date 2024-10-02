@@ -11,5 +11,5 @@ runs:
     shell: bash
     run: |-
       curl -L https://install.dojoengine.org | bash
-      source /home/runner/.bashrc
+      export PATH="$PATH:$HOME/.dojo/bin"
       dojoup --version ${{ inputs.version }}
