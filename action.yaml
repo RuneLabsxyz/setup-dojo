@@ -9,7 +9,7 @@ runs:
   steps:
   - name: 'Install dojoup'
     shell: bash
-    run: curl -L https://install.dojoengine.org | bash
-  - name: 'Install the wanted version of the tool'
-    shell: bash
-    run: dojoup --version ${{ inputs.version }}
+    run: |-
+      curl -L https://install.dojoengine.org | bash
+      source /home/runner/.bashrc
+      dojoup --version ${{ inputs.version }}
