@@ -5,6 +5,10 @@ inputs:
     description: 'The version of the dojo engine to pull'
     default: 'v1.0.1'
 
+branding:
+  icon: "monitor"
+  color: "red"
+
 runs:
   using: "composite"
   steps:
