@@ -3,6 +3,7 @@ description: 'Sets up the dojo-engine toolset to the action'
 inputs:
   version:
     description: 'The version of the dojo engine to pull'
+    default: 'v1.0.1'
 
 runs:
   using: "composite"
