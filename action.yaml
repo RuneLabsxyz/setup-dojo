@@ -26,7 +26,6 @@ runs:
       echo "$INSTALLATION_DIRECTORY" >> $GITHUB_PATH
       echo "------"
       $INSTALLATION_DIRECTORY/sozo --version
-      source /home/runner/.bashrc
-      whereis scarb
+      ls -la ~/.local/share/scarb-install/
       echo "------"
       
