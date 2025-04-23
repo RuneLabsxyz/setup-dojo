@@ -32,7 +32,7 @@ runs:
     run: |-
       scarb_version=$(echo "$(sozo --version)" | grep -o 'scarb: [0-9.]*' | cut -d ' ' -f 2)
       curl --proto '=https' --tlsv1.2 -sSf https://docs.swmansion.com/scarb/install.sh | sh -s -- -v $scarb_version
-      installation_directory="$HOME/.local/share/scarb-install/latest/bin"
+      installation_directory="$HOME/.local/share/scarb-install/$scarb_version/bin"
       ls -la $installation_directory
       echo "$installation_directory" >> $GITHUB_PATH
       
