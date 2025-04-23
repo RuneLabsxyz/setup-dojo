@@ -20,7 +20,7 @@ runs:
       BASE_DIR=${XDG_CONFIG_HOME:-$HOME}
       DOJO_DIR=${DOJO_DIR-"$BASE_DIR/.dojo"}
       export PATH="$PATH:$DOJO_DIR/bin"
-      $DOJO_DIR/bin/dojoup install ${{ inputs.version }}
+      $DOJO_DIR/dojoup/dojoup install ${{ inputs.version }}
       VERSION_STRIPPED_PREFIX=$(echo "${{ inputs.version }}" | sed 's/v//')
       INSTALLATION_DIRECTORY="$DOJO_DIR/installed/toolchain/$VERSION_STRIPPED_PREFIX"
       echo "$INSTALLATION_DIRECTORY" >> $GITHUB_PATH
