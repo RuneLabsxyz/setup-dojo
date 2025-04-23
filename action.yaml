@@ -20,7 +20,7 @@ runs:
       BASE_DIR=${XDG_CONFIG_HOME:-$HOME}
       DOJO_DIR=${DOJO_DIR-"$BASE_DIR/.dojo"}
       export PATH="$PATH:$DOJO_DIR/bin"
-      $DOJO_DIR/bin/dojoup --version ${{ inputs.version }}
+      $DOJO_DIR/bin/dojoup install --version ${{ inputs.version }}
       echo "$DOJO_DIR/bin" >> $GITHUB_PATH
       echo "------"
       $DOJO_DIR/bin/sozo --version
