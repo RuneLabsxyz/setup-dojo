@@ -25,5 +25,8 @@ runs:
       INSTALLATION_DIRECTORY="$DOJO_DIR/installed/toolchain/$VERSION_STRIPPED_PREFIX"
       echo "$INSTALLATION_DIRECTORY" >> $GITHUB_PATH
       echo "------"
-      ls -la "$INSTALLATION_DIRECTORY"
       $INSTALLATION_DIRECTORY/sozo --version
+      source /home/runner/.bashrc
+      whereis scarb
+      echo "------"
+      
