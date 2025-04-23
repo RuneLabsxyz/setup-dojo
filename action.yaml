@@ -23,5 +23,5 @@ runs:
       $DOJO_DIR/bin/dojoup install ${{ inputs.version }}
       echo "$DOJO_DIR/installed/toolchain/${{ inputs.version }}" >> $GITHUB_PATH
       echo "------"
-      ls -la "$DOJO_DIR/installed/toolchain/${{ inputs.version }}"
+      ls -la "$DOJO_DIR/installed/toolchain"
       $DOJO_DIR/bin/sozo --version
