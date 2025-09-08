@@ -148,35 +148,16 @@ if [ -n "$SCARB_VERSION" ]; then
     SCARB_BIN=$(find "$TEMP_DIR" -type f -name "scarb" -executable | head -1)
     if [ -n "$SCARB_BIN" ]; then
         echo "  Found scarb binary at: $SCARB_BIN"
+        SCARB_BIN_DIR=$(dirname "$SCARB_BIN")
+        echo "  Found scarb bin directory at: $SCARB_BIN_DIR"
     fi
 fi
 
 # Install binaries to PATH
 echo "Installing binaries to $INSTALL_DIR..."
 
-# Install sozo and all binaries from sozo's bin directory
-if [ -f "$TEMP_DIR/sozo" ]; then
-    echo "  Installing sozo..."
-    sudo mv "$TEMP_DIR/sozo" "$INSTALL_DIR/"
-    sudo chmod +x "$INSTALL_DIR/sozo"
-fi
-
-# Find and install all binaries from sozo-*/bin/ directory
-SOZO_BIN_DIR=$(find "$TEMP_DIR" -type d -path "*/sozo-*/bin" | head -1)
-if [ -n "$SOZO_BIN_DIR" ] && [ -d "$SOZO_BIN_DIR" ]; then
-    echo "  Found sozo bin directory at: $SOZO_BIN_DIR"
-    for binary in "$SOZO_BIN_DIR"/*; do
-        if [ -f "$binary" ]; then
-            binary_name=$(basename "$binary")
-            echo "  Installing $binary_name from sozo bin directory..."
-            sudo cp "$binary" "$INSTALL_DIR/"
-            sudo chmod +x "$INSTALL_DIR/$binary_name"
-        fi
-    done
-fi
-
-# Install katana and torii
-for binary in katana torii; do
+# Find and install executables
+for binary in sozo katana torii; do
     if [ -f "$TEMP_DIR/$binary" ]; then
         echo "  Installing $binary..."
         sudo mv "$TEMP_DIR/$binary" "$INSTALL_DIR/"
@@ -186,11 +167,17 @@ for binary in katana torii; do
     fi
 done
 
-# Install scarb if it was found
-if [ -n "$SCARB_BIN" ]; then
-    echo "  Installing scarb..."
-    sudo cp "$SCARB_BIN" "$INSTALL_DIR/scarb"
-    sudo chmod +x "$INSTALL_DIR/scarb"
+# Install scarb and all binaries from its bin directory if found
+if [ -n "$SCARB_BIN_DIR" ] && [ -d "$SCARB_BIN_DIR" ]; then
+    echo "  Installing all binaries from scarb bin directory..."
+    for binary in "$SCARB_BIN_DIR"/*; do
+        if [ -f "$binary" ] && [ -x "$binary" ]; then
+            binary_name=$(basename "$binary")
+            echo "    Installing $binary_name..."
+            sudo cp "$binary" "$INSTALL_DIR/$binary_name"
+            sudo chmod +x "$INSTALL_DIR/$binary_name"
+        fi
+    done
 fi
 
 # Verify installation
