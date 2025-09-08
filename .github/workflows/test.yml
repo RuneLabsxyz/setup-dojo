@@ -60,6 +60,15 @@ jobs:
             exit 1
           fi
 
+          # Check scarb
+          if command -v scarb &> /dev/null; then
+            echo "✓ scarb found"
+            scarb --version
+          else
+            echo "✗ scarb not found"
+            exit 1
+          fi
+
           echo "================================"
           echo "All components installed successfully!"
 
