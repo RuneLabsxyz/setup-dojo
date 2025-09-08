@@ -154,8 +154,29 @@ fi
 # Install binaries to PATH
 echo "Installing binaries to $INSTALL_DIR..."
 
-# Find and install executables
-for binary in sozo katana torii; do
+# Install sozo and all binaries from sozo's bin directory
+if [ -f "$TEMP_DIR/sozo" ]; then
+    echo "  Installing sozo..."
+    sudo mv "$TEMP_DIR/sozo" "$INSTALL_DIR/"
+    sudo chmod +x "$INSTALL_DIR/sozo"
+fi
+
+# Find and install all binaries from sozo-*/bin/ directory
+SOZO_BIN_DIR=$(find "$TEMP_DIR" -type d -path "*/sozo-*/bin" | head -1)
+if [ -n "$SOZO_BIN_DIR" ] && [ -d "$SOZO_BIN_DIR" ]; then
+    echo "  Found sozo bin directory at: $SOZO_BIN_DIR"
+    for binary in "$SOZO_BIN_DIR"/*; do
+        if [ -f "$binary" ]; then
+            binary_name=$(basename "$binary")
+            echo "  Installing $binary_name from sozo bin directory..."
+            sudo cp "$binary" "$INSTALL_DIR/"
+            sudo chmod +x "$INSTALL_DIR/$binary_name"
+        fi
+    done
+fi
+
+# Install katana and torii
+for binary in katana torii; do
     if [ -f "$TEMP_DIR/$binary" ]; then
         echo "  Installing $binary..."
         sudo mv "$TEMP_DIR/$binary" "$INSTALL_DIR/"
