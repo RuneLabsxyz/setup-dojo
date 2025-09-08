@@ -1,9 +1,9 @@
-name: 'Setup Dojo'
-description: 'Sets up the dojo-engine toolset to the action'
+name: "Setup Dojo"
+description: "Sets up the dojo-engine toolset to the action"
 inputs:
   version:
-    description: 'The version of the dojo engine to pull'
-    default: 'v1.0.1'
+    description: "The version of the dojo engine to pull"
+    default: "v1.7.0-alpha.2"
 
 branding:
   icon: "monitor"
@@ -12,27 +12,15 @@ branding:
 runs:
   using: "composite"
   steps:
-  - name: 'Install dojoup'
-    shell: bash
-    run: |-
-      curl -L https://install.dojoengine.org | bash
-      echo "-----"
-      BASE_DIR=${XDG_CONFIG_HOME:-$HOME}
-      DOJO_DIR=${DOJO_DIR-"$BASE_DIR/.dojo"}
-      export PATH="$PATH:$DOJO_DIR/bin"
-      $DOJO_DIR/dojoup/dojoup install ${{ inputs.version }}
-      VERSION_STRIPPED_PREFIX=$(echo "${{ inputs.version }}" | sed 's/v//')
-      INSTALLATION_DIRECTORY="$DOJO_DIR/installed/toolchain/$VERSION_STRIPPED_PREFIX"
-      echo "$INSTALLATION_DIRECTORY" >> $GITHUB_PATH
-      echo "------"
-      $INSTALLATION_DIRECTORY/sozo --version
-      echo "------"
-  - name: 'Install scarb'
-    shell: bash
-    run: |-
-      scarb_version=$(echo "$(sozo --version)" | grep -o 'scarb: [0-9.]*' | cut -d ' ' -f 2)
-      curl --proto '=https' --tlsv1.2 -sSf https://docs.swmansion.com/scarb/install.sh | sh -s -- -v $scarb_version
-      installation_directory="$HOME/.local/share/scarb-install/$scarb_version/bin"
-      ls -la $installation_directory
-      echo "$installation_directory" >> $GITHUB_PATH
-      
+    - name: "Install Dojo"
+      shell: bash
+      run: |-
+        # Run the install script from the action's directory
+        "${{ github.action_path }}/install-dojo.sh" ${{ inputs.version }}
+
+        # Add /usr/local/bin to PATH if not already there
+        echo "/usr/local/bin" >> $GITHUB_PATH
+
+        # Verify installation
+        echo "------"
+        sozo --version
