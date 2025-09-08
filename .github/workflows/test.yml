@@ -2,83 +2,83 @@ name: Test Setup Dojo Action
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
     inputs:
       version:
-        description: 'Dojo version to test'
+        description: "Dojo version to test"
         required: false
-        default: '1.0.0'
+        default: "1.0.0"
 
 jobs:
   test-setup:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        dojo-version: ['1.0.0', '0.7.3']
+        dojo-version: ["1.7.0-alpha.2", "1.6.2"]
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Setup Dojo
-      uses: ./
-      with:
-        version: ${{ matrix.dojo-version }}
+      - name: Setup Dojo
+        uses: ./
+        with:
+          version: ${{ matrix.dojo-version }}
 
-    - name: Verify installation
-      run: |
-        echo "Testing Dojo version ${{ matrix.dojo-version }}"
-        echo "================================"
+      - name: Verify installation
+        run: |
+          echo "Testing Dojo version ${{ matrix.dojo-version }}"
+          echo "================================"
 
-        # Check sozo
-        if command -v sozo &> /dev/null; then
-          echo "✓ sozo found"
-          sozo --version
-        else
-          echo "✗ sozo not found"
-          exit 1
-        fi
+          # Check sozo
+          if command -v sozo &> /dev/null; then
+            echo "✓ sozo found"
+            sozo --version
+          else
+            echo "✗ sozo not found"
+            exit 1
+          fi
 
-        # Check katana
-        if command -v katana &> /dev/null; then
-          echo "✓ katana found"
-          katana --version
-        else
-          echo "✗ katana not found"
-          exit 1
-        fi
+          # Check katana
+          if command -v katana &> /dev/null; then
+            echo "✓ katana found"
+            katana --version
+          else
+            echo "✗ katana not found"
+            exit 1
+          fi
 
-        # Check torii
-        if command -v torii &> /dev/null; then
-          echo "✓ torii found"
-          torii --version
-        else
-          echo "✗ torii not found"
-          exit 1
-        fi
+          # Check torii
+          if command -v torii &> /dev/null; then
+            echo "✓ torii found"
+            torii --version
+          else
+            echo "✗ torii not found"
+            exit 1
+          fi
 
-        echo "================================"
-        echo "All components installed successfully!"
+          echo "================================"
+          echo "All components installed successfully!"
 
   test-manual-version:
     runs-on: ubuntu-latest
     if: github.event_name == 'workflow_dispatch'
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Setup Dojo (manual version)
-      uses: ./
-      with:
-        version: ${{ github.event.inputs.version }}
+      - name: Setup Dojo (manual version)
+        uses: ./
+        with:
+          version: ${{ github.event.inputs.version }}
 
-    - name: Verify installation
-      run: |
-        echo "Testing manually specified version: ${{ github.event.inputs.version }}"
-        sozo --version
-        katana --version
-        torii --version
+      - name: Verify installation
+        run: |
+          echo "Testing manually specified version: ${{ github.event.inputs.version }}"
+          sozo --version
+          katana --version
+          torii --version
